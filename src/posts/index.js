@@ -3,7 +3,7 @@ import fs from "fs";
 import uniqid from "uniqid";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import { postValidation } from "./validation"
+import { postValidation } from "./validation.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,7 +26,9 @@ blogPost.get("/", async (req, res, next) => {
 });
 
 // 2. create a new  post
-blogPost.post("/",postValidation, async (req, res, next) => {
+blogPost.post("/",
+ postValidation, 
+async (req, res, next) => {
   try {
     const { category, title, cover, value, unit, name, avatar, content } = req.body;
 
@@ -106,8 +108,10 @@ blogPost.delete("/:id", async (req, res, next) => {
   }
 });
 
-//  update post
-blogPost.put("/:id", postValidation, async (req, res, next) => {
+//  update posttt
+blogPost.put("/:id", 
+ postValidation, 
+async (req, res, next) => {
   try {
     const fileAsBuffer = fs.readFileSync(postFilePath);
     const fileAsString = fileAsBuffer.toString();
