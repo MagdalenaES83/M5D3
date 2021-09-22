@@ -21,7 +21,7 @@ blogPost.get("/", async (req, res, next) => {
     const fileAsJSON = JSON.parse(fileAsString);
     res.send(fileAsJSON);
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
@@ -37,10 +37,17 @@ async (req, res, next) => {
       category,
       title,
       cover,
-      value,
-      unit,
-      name,
-      avatar,
+      readTime: {
+        value ,
+        unit
+       },
+
+       author: {
+         name, 
+         avatar, 
+       },
+      
+      
       content,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -53,8 +60,10 @@ async (req, res, next) => {
     fs.writeFileSync(postFilePath, JSON.stringify(fileAsJSONArray));
 
     res.send(post);
+
+
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
@@ -75,7 +84,7 @@ blogPost.get("/:id", async (req, res, next) => {
     }
     res.send(post);
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
@@ -104,7 +113,7 @@ blogPost.delete("/:id", async (req, res, next) => {
     fs.writeFileSync(postFilePath, JSON.stringify(fileAsJSONArray));
     res.status(204).send();
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
@@ -123,7 +132,7 @@ async (req, res, next) => {
     if (!postIndex == -1) {
       res
         .status(404)
-        .send({ message: `Post with ${req.params.id} is not found!` });
+        .send({ message: `Post with ${req.params.id} is noooot found!` });
     }
     const previousPostData = fileAsJSONArray[postIndex];
     const changedPost = {
@@ -137,7 +146,7 @@ async (req, res, next) => {
     fs.writeFileSync(postFilePath, JSON.stringify(fileAsJSONArray));
     res.send(changedPost);
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
